@@ -7,4 +7,4 @@ The pretrained model can be found at [khrlimam/res-facenet](https://github.com/k
   3. `export FLASK-DEBUG=True`
   4. `flask run`
   
-You can switch the model to use in `config.py` file
+You can switch which model to use in `config.py` file
