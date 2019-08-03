@@ -7,4 +7,7 @@ The pretrained model can be found at [khrlimam/res-facenet](https://github.com/k
   3. `export FLASK-DEBUG=True`
   4. `flask run`
   
+### Try the deployed demo app:
+https://demo-facenet.herokuapp.com
+
 You can switch which model to use in `config.py` file
