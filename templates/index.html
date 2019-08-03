@@ -1,0 +1,83 @@
+{% extends 'layout.html' %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-6">
+            <img onclick="inputLeft.click()" id="img-left" src="{{ url_for('static', filename='anon.jpg') }}"
+                 class="rounded border img-fluid center-cropped float-right"
+                 alt="Pair left">
+        </div>
+        <div class="col-md-6">
+            <img onclick="inputRight.click()" id="img-right" src="{{ url_for('static', filename='anon.jpg') }}"
+                 class="rounded border img-fluid center-cropped float-left"
+                 alt="Pair left">
+        </div>
+        <div class="col-md-12">
+            <br>
+            <button onclick="predict()" class="btn btn-primary mx-auto d-block">Prediksi</button>
+        </div>
+    </div>
+    <div class="row" style="margin-top: 20px">
+        <div class="col-md-12 text-center">
+            <h3 id="similar"></h3>
+            <h5 id="score"></h5>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <hr>
+            <h5 id="threshold"></h5>
+            <p><b>Keterangan</b> Ketentuan kemiripan berdasarkan nilai <i>threshold</i> diatas. Jika perbandingan jarak <i>embedding</i> antar pasangan gambar lebih kecil atau sama dengan nilai <i>threshold</i> diatas maka gambar dianggap sama dan akan dianggap berbeda jika sebaliknya.</p>
+        </div>
+    </div>
+{% endblock %}
+{% block js %}
+    <script>
+        let imgLeft = document.getElementById('img-left');
+        let imgRight = document.getElementById('img-right');
+        let inputLeft = document.createElement('input');
+        let inputRight = document.createElement('input');
+        let scoreElement = document.getElementById("score");
+        let similarElement = document.getElementById("similar");
+        let thresholdElement = document.getElementById("threshold");
+        inputLeft.type = 'file';
+        inputLeft.accept = 'image/*';
+        inputRight.type = 'file';
+        inputRight.accept = 'image/*';
+        let data = {imgLeft: null, imgRight: null};
+
+        inputLeft.onchange = e => {
+            setImageFromObj(imgLeft, e, (file) => {
+                data.imgLeft = file;
+            })
+        };
+
+        inputRight.onchange = e => {
+            setImageFromObj(imgRight, e, (file) => {
+                data.imgRight = file;
+            })
+        };
+
+        predict = () => {
+            formData = new FormData();
+            formData.append('imgLeft', data.imgLeft);
+            formData.append('imgRight', data.imgRight);
+            fetch('/predict', {
+                method: 'POST',
+                body: formData
+            }).then((r) => r.json().then((data) => {
+                console.log(data);
+                scoreElement.innerText = `JARAK: ${data.score}`;
+                similarElement.innerText = `${data.same}`;
+                thresholdElement.innerText = `Threshold: ${data.threshold}`
+            }))
+        };
+
+        function setImageFromObj(element, obj, fun) {
+            const file = obj.target.files[0];
+            element.src = URL.createObjectURL(file);
+            fun(file)
+        }
+
+
+    </script>
+{% endblock %}
