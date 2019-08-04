@@ -61,8 +61,10 @@
         };
 
         predict = () => {
-            btnPredict.disabled = true
-            btnPredict.innerText = "Menghitung ..."
+            if (Object.values(data).includes(null))
+                return;
+            btnPredict.disabled = true;
+            btnPredict.innerText = "Menghitung ...";
             formData = new FormData();
             formData.append('imgLeft', data.imgLeft);
             formData.append('imgRight', data.imgRight);
@@ -73,8 +75,8 @@
                 console.log(data);
                 scoreElement.innerText = `JARAK: ${data.score}`;
                 similarElement.innerText = `${data.same}`;
-                thresholdElement.innerText = `Threshold: ${data.threshold}`
-                btnPredict.disabled = false
+                thresholdElement.innerText = `Threshold: ${data.threshold}`;
+                btnPredict.disabled = false;
                 btnPredict.innerText = 'Prediksi'
             }))
         };
