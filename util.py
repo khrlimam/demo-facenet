@@ -12,7 +12,7 @@ class ModelLoaded:
     @staticmethod
     def get_model():
         if not ModelLoaded.model:
-            device = torch.device('gpu' if torch.cuda.is_available() else 'cpu')
+            device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
             selected_model = app.config['USE_MODEL']
             model = selected_model['model']()
             model.to(device)
