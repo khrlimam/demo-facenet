@@ -49,16 +49,23 @@
         let data = {imgLeft: null, imgRight: null};
 
         inputLeft.onchange = e => {
+            resetBtnPredict()
             setImageFromObj(imgLeft, e, (file) => {
                 data.imgLeft = file;
             })
         };
 
         inputRight.onchange = e => {
+            resetBtnPredict()
             setImageFromObj(imgRight, e, (file) => {
                 data.imgRight = file;
             })
         };
+
+        function resetBtnPredict() {
+            btnPredict.disabled = false;
+            btnPredict.innerText = 'Prediksi'
+        }
 
         predict = () => {
             if (Object.values(data).includes(null))
@@ -76,8 +83,7 @@
                 scoreElement.innerText = `JARAK: ${data.score}`;
                 similarElement.innerText = `${data.same}`;
                 thresholdElement.innerText = `Threshold: ${data.threshold}`;
-                btnPredict.disabled = false;
-                btnPredict.innerText = 'Prediksi'
+                resetBtnPredict()
             }))
         };
 

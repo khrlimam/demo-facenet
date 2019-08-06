@@ -34,6 +34,7 @@ totensor = transforms.Compose(trfrm.transforms[:-1])
 
 def get_distance(img1, img2):
     model = ModelLoaded.get_model()
+    model.eval()
     with torch.no_grad():
         x1 = trfrm(img1).unsqueeze(0)
         x2 = trfrm(img2).unsqueeze(0)
